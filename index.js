@@ -1,0 +1,96 @@
+style.css up:
+/* Body & background */
+body { 
+  font-family: 'Comic Sans MS', Arial, sans-serif; 
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7); 
+  text-align: center; 
+  margin: 0;
+  padding: 0;
+}
+
+/* Chat container */
+.chat-container { 
+  max-width: 600px; 
+  margin: 50px auto; 
+  background: #fff8e1; 
+  padding: 25px; 
+  border-radius: 20px; 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
+  border: 3px dashed #ff6f61;  /* doodle-style border */
+  position: relative;
+}
+
+/* Chat box */
+#chat-box { 
+  height: 350px; 
+  overflow-y: auto; 
+  border: 2px dashed #fbc02d;  /* doodle border */
+  padding: 15px; 
+  margin-bottom: 15px; 
+  text-align: left; 
+  background: #fff3e0; 
+  border-radius: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Input box */
+input { 
+  width: 68%; 
+  padding: 12px; 
+  border-radius: 12px;
+  border: 2px solid #ff8a65;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Send button */
+button { 
+  padding: 12px 20px; 
+  border-radius: 12px; 
+  border: none; 
+  background: linear-gradient(45deg, #ff6f61, #ffcc70); 
+  color: white; 
+  font-weight: bold; 
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover { 
+  transform: scale(1.05); 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+}
+
+/* Chat messages */
+#chat-box p { 
+  margin: 8px 0; 
+  padding: 8px; 
+  border-radius: 12px;
+  position: relative;
+}
+
+/* User message style */
+#chat-box p b:first-child { 
+  color: #ff6f61; 
+}
+
+/* Bot message style */
+#chat-box p:nth-child(even) { 
+  background: #ffe082; 
+  border: 2px dashed #ffb74d; /* doodle effect */
+}
+
+/* Add doodle icons */
+#chat-box::before {
+  content: "💬🤖✏️"; 
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+  animation: bounce 2s infinite;
+}
+
+/* Doodle animation */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}

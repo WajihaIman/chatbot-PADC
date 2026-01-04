@@ -1,96 +1,34 @@
-style.css up:
-/* Body & background */
-body { 
-  font-family: 'Comic Sans MS', Arial, sans-serif; 
-  background: linear-gradient(135deg, #ffdde1, #ee9ca7); 
-  text-align: center; 
-  margin: 0;
-  padding: 0;
-}
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import OpenAI from "openai";
 
-/* Chat container */
-.chat-container { 
-  max-width: 600px; 
-  margin: 50px auto; 
-  background: #fff8e1; 
-  padding: 25px; 
-  border-radius: 20px; 
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
-  border: 3px dashed #ff6f61;  /* doodle-style border */
-  position: relative;
-}
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static("public"));
 
-/* Chat box */
-#chat-box { 
-  height: 350px; 
-  overflow-y: auto; 
-  border: 2px dashed #fbc02d;  /* doodle border */
-  padding: 15px; 
-  margin-bottom: 15px; 
-  text-align: left; 
-  background: #fff3e0; 
-  border-radius: 15px;
-  font-size: 16px;
-  color: #333;
-}
+app.get("/", (req, res) => {
+  res.sendFile(`${process.cwd()}/public/index.html`);
+});
 
-/* Input box */
-input { 
-  width: 68%; 
-  padding: 12px; 
-  border-radius: 12px;
-  border: 2px solid #ff8a65;
-  font-size: 16px;
-  outline: none;
-}
+const openai = new OpenAI({
+  apiKey: "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"
+});
 
-/* Send button */
-button { 
-  padding: 12px 20px; 
-  border-radius: 12px; 
-  border: none; 
-  background: linear-gradient(45deg, #ff6f61, #ffcc70); 
-  color: white; 
-  font-weight: bold; 
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+app.post("/chat", async (req, res) => {
+  const { message } = req.body;
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: message }],
+    });
+    res.json({ reply: response.choices[0].message.content });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+});
 
-button:hover { 
-  transform: scale(1.05); 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-}
-
-/* Chat messages */
-#chat-box p { 
-  margin: 8px 0; 
-  padding: 8px; 
-  border-radius: 12px;
-  position: relative;
-}
-
-/* User message style */
-#chat-box p b:first-child { 
-  color: #ff6f61; 
-}
-
-/* Bot message style */
-#chat-box p:nth-child(even) { 
-  background: #ffe082; 
-  border: 2px dashed #ffb74d; /* doodle effect */
-}
-
-/* Add doodle icons */
-#chat-box::before {
-  content: "💬🤖✏️"; 
-  display: block;
-  font-size: 24px;
-  margin-bottom: 10px;
-  animation: bounce 2s infinite;
-}
-
-/* Doodle animation */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running at http://localhost:3000`));
